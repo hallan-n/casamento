@@ -45,6 +45,7 @@ class Connection:
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         await self.session.close()
 
+
 async def create_tables():
     async with engine.begin() as conn:
         await conn.run_sync(SQLModel.metadata.create_all)
