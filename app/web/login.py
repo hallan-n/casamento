@@ -1,0 +1,40 @@
+import asyncio
+
+import httpx
+from nicegui import ui
+from web.components.menu import menu
+
+
+@ui.page("/")
+async def index():
+    async def post_login(user: str, password: str):
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                "http://localhost:8000/auth/", json={"user": user, "password": password}
+            )
+            if response.status_code == 200:
+                ui.notify("Sucesso!", color="green")
+                await asyncio.sleep(2)
+
+                ui.run_javascript(
+                    f"""
+                    localStorage.setItem("access_token", "{response.json()['access_token']}");
+                    window.location.href = "dashboard";
+                """
+                )
+
+            else:
+                ui.notify(f"Erro: {response.json()['detail']}", color="red")
+
+    menu()
+    with ui.element("div").classes("flex w-full justify-center mt-40 h-screen"):
+        with ui.element("div").classes("flex flex-col gap-4 w-full max-w-[400px]"):
+            ui.label("Login").classes("text-bold text-lg")
+            user = ui.input(label="Usuário")
+            pwd = ui.input(label="Senha", password=True)
+            ui.button(
+                text="Entrar",
+                color="violet-400",
+                icon="send",
+                on_click=lambda: post_login(user.value, pwd.value),
+            ).classes("text-white w-full")
