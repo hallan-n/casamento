@@ -1,4 +1,6 @@
+import web.home
 import web.login
+import web.panel
 from fastapi import FastAPI
 from nicegui import ui
 

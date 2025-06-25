@@ -5,7 +5,7 @@ from nicegui import ui
 from web.components.menu import menu
 
 
-@ui.page("/")
+@ui.page("/login")
 async def index():
     async def post_login(user: str, password: str):
         async with httpx.AsyncClient() as client:
@@ -19,7 +19,7 @@ async def index():
                 ui.run_javascript(
                     f"""
                     localStorage.setItem("access_token", "{response.json()['access_token']}");
-                    window.location.href = "dashboard";
+                    window.location.href = "panel";
                 """
                 )
 
@@ -34,7 +34,7 @@ async def index():
             pwd = ui.input(label="Senha", password=True)
             ui.button(
                 text="Entrar",
-                color="violet-400",
                 icon="send",
                 on_click=lambda: post_login(user.value, pwd.value),
-            ).classes("text-white w-full")
+                color=None,
+            ).classes("bg-[#6b6d4a] text-white w-full")
