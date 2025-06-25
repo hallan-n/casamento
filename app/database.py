@@ -1,6 +1,7 @@
 import uuid
 from typing import List, Optional
 
+from consts import DATABASE_URL
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import Field, Relationship, SQLModel
@@ -26,8 +27,6 @@ class Guest(SQLModel, table=True):
 
     gifts: List[Gift] = Relationship(back_populates="guest")
 
-
-DATABASE_URL = "mysql+aiomysql://neves:12qwaszx@localhost:3306/casamento"
 
 engine = create_async_engine(DATABASE_URL, echo=True)
 

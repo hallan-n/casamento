@@ -1,13 +1,14 @@
 from database import Gift
 from dto import AddGift, UpdateGift
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from persistence import create, delete, read, update
+from utils import verify_token
 
 route = APIRouter(prefix="/gift", tags=["Presente"])
 
 
-@route.post("/")
-async def add_gift(gift: AddGift):
+@route.post("/", response_model=Gift, dependencies=[Depends(verify_token)])
+async def add_gift(gift: AddGift) -> Gift:
     """Insere um presente"""
     try:
         resp = await create(Gift(**gift.model_dump()))
@@ -20,8 +21,8 @@ async def add_gift(gift: AddGift):
         raise HTTPException(500, f"Erro ao inserir um presente: {e}")
 
 
-@route.get("/")
-async def get_gift(id: int = None):
+@route.get("/", response_model=Gift | list[Gift], tags=["Publico"])
+async def get_gift(id: int = None) -> Gift | list[Gift]:
     """Consulta os presentes"""
     try:
         resp = await read(Gift, id)
@@ -34,7 +35,7 @@ async def get_gift(id: int = None):
         raise HTTPException(500, f"Erro ao consultar presente: {e}")
 
 
-@route.delete("/")
+@route.delete("/", dependencies=[Depends(verify_token)])
 async def delete_gift(id: int):
     """Deleta um presente"""
     try:
@@ -49,7 +50,7 @@ async def delete_gift(id: int):
         raise HTTPException(500, f"Erro ao delete um presente: {e}")
 
 
-@route.put("/")
+@route.put("/", response_model=Gift, tags=["Publico"])
 async def update_gift(gift: UpdateGift):
     """Deleta um presente"""
     try:

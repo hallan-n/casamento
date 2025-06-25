@@ -10,3 +10,8 @@ class AddGift(BaseModel):
 
 class UpdateGift(AddGift):
     id: int
+
+
+class PostLogin(BaseModel):
+    user: str
+    password: str
