@@ -41,7 +41,7 @@ async def delete_gift(id: int):
     try:
         gift = await read(Gift, id)
         if not gift:
-            return HTTPException(404, "Presente não encontrado")
+            raise HTTPException(404, "Presente não encontrado")
         resp = await delete(gift)
         return {"success": resp}
     except HTTPException:
@@ -56,7 +56,7 @@ async def update_gift(gift: UpdateGift):
     try:
         has_gift = await read(Gift, gift.id)
         if not has_gift:
-            return HTTPException(404, "Presente não encontrado")
+            raise HTTPException(404, "Presente não encontrado")
         resp = await update(Gift(**gift.model_dump()))
         return resp
     except HTTPException:

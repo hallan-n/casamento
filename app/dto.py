@@ -1,4 +1,4 @@
-from pydantic import AnyUrl, BaseModel
+from pydantic import UUID4, AnyUrl, BaseModel
 
 
 class AddGift(BaseModel):
@@ -15,3 +15,14 @@ class UpdateGift(AddGift):
 class PostLogin(BaseModel):
     user: str
     password: str
+
+
+class AddGuest(BaseModel):
+    name: str
+    phone: str
+    is_confirmed: bool = False
+    description: str
+
+
+class UpdateGuest(AddGuest):
+    id: UUID4

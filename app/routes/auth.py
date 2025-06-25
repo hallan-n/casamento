@@ -7,7 +7,7 @@ route = APIRouter(prefix="/auth", tags=["Auth", "Publico"])
 
 @route.post("/")
 async def auth(login: PostLogin):
-    """Insere um presente"""
+    """Pega o token de autenticação"""
     if login.user == USER and login.password == PWD:
         return {
             "access_token": ACCESS_TOKEN,

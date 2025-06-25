@@ -10,7 +10,7 @@ async def create(data: Gift | Guest):
         return data
 
 
-async def read(Schema: Gift | Guest, id: int = None) -> Gift | Guest:
+async def read(Schema: Gift | Guest, id: int | str = None) -> Gift | Guest:
     async with Connection() as conn:
         if id:
             return await conn.get(Schema, id)
