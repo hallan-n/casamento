@@ -1,7 +1,6 @@
-from nicegui import ui
 
 
-def is_login():
+def is_login(ui):
     ui.run_javascript(
         """
         if (!localStorage.getItem('access_token')) {
@@ -11,14 +10,20 @@ def is_login():
     )
 
 
-def reset_css():
+def reset_css(ui):
     ui.add_head_html(
         """
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
         <style>
             * {
                 margin: 0;
                 padding: 0;
                 box-sizing: border-box;
+            }
+            body {
+                font-family: 'Funnel Sans', sans-serif;
             }
             .nicegui-content {
                 padding: 0;

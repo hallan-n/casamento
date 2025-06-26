@@ -8,7 +8,7 @@ from web.utils import is_login
 
 @ui.page("/panel")
 async def index():
-    is_login()
+    is_login(ui)
 
     menu()
     with ui.element("div").classes("flex w-full justify-center mt-40 h-screen"):
