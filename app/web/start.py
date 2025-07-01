@@ -1,3 +1,5 @@
+import web.confirm
+import web.gifts
 import web.home
 import web.login
 import web.panel

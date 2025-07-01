@@ -2,12 +2,21 @@ import asyncio
 
 import httpx
 from nicegui import ui
-from web.utils import reset_css
 from web.components.menu import menu
+from web.utils import reset_css
 
 
 @ui.page("/login")
 async def index():
+    ui.run_javascript(
+        """
+    if (localStorage.getItem('access_token')) {
+        window.location.href = '/web/panel';
+    }
+    """
+    )
+    reset_css()
+
     async def post_login(user: str, password: str):
         async with httpx.AsyncClient() as client:
             response = await client.post(

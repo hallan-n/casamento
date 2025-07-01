@@ -1,5 +1,4 @@
 from nicegui import ui
-
 from web.utils import reset_css
 
 
@@ -15,5 +14,9 @@ def menu():
                 "flex gap-3 justify-between sm:w-auto w-full"
             ):
                 ui.link("Início", "/").classes("cursor-pointer text-white no-underline")
-                ui.link("Administração", "/").classes("cursor-pointer text-white no-underline")
-                ui.link("Lista de presentes", "/").classes("cursor-pointer text-white no-underline")
+                ui.link("Administração", "/login").classes(
+                    "cursor-pointer text-white no-underline"
+                )
+                ui.link("Lista de presentes", "/gifts").classes(
+                    "cursor-pointer text-white no-underline"
+                )
