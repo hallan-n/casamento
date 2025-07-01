@@ -1,15 +1,11 @@
-import asyncio
-
-import httpx
 from nicegui import ui
-from web.components.menu import menu
 from web.utils import is_login
+from web.components.menu import menu
 
 
 @ui.page("/panel")
 async def index():
-    is_login(ui)
-
+    is_login()
     menu()
-    with ui.element("div").classes("flex w-full justify-center mt-40 h-screen"):
-        ui.label("Painel")
+
+    ui.label("Painel de Administração").classes("text-2xl font-bold mb-4")

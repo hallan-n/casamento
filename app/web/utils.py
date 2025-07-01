@@ -1,6 +1,6 @@
 
-
-def is_login(ui):
+from nicegui import ui
+def is_login():
     ui.run_javascript(
         """
         if (!localStorage.getItem('access_token')) {
@@ -10,7 +10,7 @@ def is_login(ui):
     )
 
 
-def reset_css(ui):
+def reset_css():
     ui.add_head_html(
         """
         <link rel="preconnect" href="https://fonts.googleapis.com">

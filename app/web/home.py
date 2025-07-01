@@ -8,7 +8,7 @@ app.add_static_files("/assets", "app/web/assets")
 @ui.page("/")
 async def index():
     menu()
-    reset_css(ui)
+    reset_css()
 
     ui.element("div").classes("home")
 
