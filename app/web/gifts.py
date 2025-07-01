@@ -6,10 +6,10 @@ from web.utils import get_current_user
 
 @ui.page("/gifts")
 async def index():
-    reset_css()
-    menu()
+    current_user = await get_current_user()
 
-    curret_user = await get_current_user()
+    menu(current_user)
+
 
     async def get_gift():
         async with httpx.AsyncClient() as client:
@@ -41,7 +41,8 @@ async def index():
                             icon="add_shopping_cart",
                             color=None,
                         ).classes("bg-[#6b6d4a] text-white")
-                    elif item.get("guest_id").replace("-", "") == curret_user.get("id"):
+               
+                    elif item.get("guest_id").replace("-", "") == current_user.get("id", ""):
                         ui.button(
                             text="Presente dado por você",
                             icon="check_circle",
@@ -60,9 +61,7 @@ async def index():
                             ),
                         )
 
-                    elif item.get("guest_id") and item.get("guest_id").replace(
-                        "-", ""
-                    ) != curret_user.get("id"):
+                    elif item.get("guest_id") and item.get("guest_id").replace("-", "") != current_user.get("id", ""):
                         ui.button(
                             text="Presente dado",
                             icon="check_circle",

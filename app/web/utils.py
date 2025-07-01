@@ -9,7 +9,7 @@ async def get_current_user():
     current_user = await ui.run_javascript(
         'localStorage.getItem("current_user");', timeout=30
     )
-    return json.loads(current_user) if current_user else None
+    return json.loads(current_user) if current_user else {}
 
 
 def is_login():
@@ -37,6 +37,7 @@ def reset_css():
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            overflow: hidden;
         }
         .nicegui-content {
             padding: 0;
@@ -55,7 +56,7 @@ def reset_css():
         .bg-olive-1{
             background-color: #86895d;
         }
-        @media (max-width: 800px) {
+        @media (max-width: 961px) {
             .home {
                 display: none;
             }
