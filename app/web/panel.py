@@ -10,7 +10,6 @@ async def index():
 
     async def post_guest(name: str, phone: str, description: str, is_confirmed: bool):
         async with httpx.AsyncClient() as client:
-            token = await ui.run_javascript('localStorage.getItem("access_token")')
             response = await client.post(
                 "http://localhost:8000/guest/",
                 json={

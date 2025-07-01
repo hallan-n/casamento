@@ -9,9 +9,9 @@ from sqlmodel import Field, Relationship, SQLModel
 
 class Gift(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    thumb: str = Field(min_length=3, max_length=255, nullable=False)
+    thumb: str = Field(min_length=3, max_length=500, nullable=False)
     name: str = Field(min_length=3, max_length=255, nullable=False)
-    url: str = Field(min_length=3, max_length=255, nullable=False)
+    url: str = Field(min_length=3, max_length=500, nullable=False)
     price: float = Field(nullable=False)
 
     guest_id: Optional[uuid.UUID] = Field(default=None, foreign_key="guest.id")

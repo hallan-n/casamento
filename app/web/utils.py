@@ -1,6 +1,15 @@
+import json
+
 from nicegui import app, ui
 
 app.add_static_files("/assets", "app/web/assets")
+
+
+async def get_current_user():
+    current_user = await ui.run_javascript(
+        'localStorage.getItem("current_user");', timeout=30
+    )
+    return json.loads(current_user) if current_user else None
 
 
 def is_login():

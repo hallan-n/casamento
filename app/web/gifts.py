@@ -1,48 +1,70 @@
+import httpx
 from nicegui import ui
-from web.components.menu import menu
+from web.components.menu import menu, reset_css
+from web.utils import get_current_user
 
 
 @ui.page("/gifts")
 async def index():
-    lista = [
-        {
-            "id": 0,
-            "thumb": "string",
-            "name": "string",
-            "url": "string",
-            "price": 0,
-            "guest_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        },
-        {
-            "id": 0,
-            "thumb": "string",
-            "name": "string",
-            "url": "string",
-            "price": 0,
-            "guest_id": "",
-        },
-    ]
+    reset_css()
     menu()
 
+    curret_user = await get_current_user()
+
+    async def get_gift():
+        async with httpx.AsyncClient() as client:
+            response = await client.get(f"http://localhost:8000/gift/")
+            if response.status_code == 200:
+                return response.json()
+            elif response.status_code == 422:
+                ui.notify("Erro: Erro ao buscar presentes", color="red")
+            else:
+                ui.notify(f"Erro: {response.json()['detail']}", color="red")
+
     with ui.element("div").classes("flex gap-2 w-full justify-center mt-40 h-screen"):
-        for item in lista:
+        gifts = await get_gift()
+        for item in gifts:
             with ui.card().classes("max-h-[500px]"):
-                ui.image(
-                    "https://d1ih8jugeo2m5m.cloudfront.net/2020/11/editar-pagina-de-produtos.jpg"
-                ).classes("rounded-lg w-96 h-96 object-cover")
-                ui.label("Carrinho de compras").classes("text-bold text-lg mt-4")
+                ui.image(item.get("thumb")).classes("rounded-lg w-96 h-96 object-cover")
+                ui.label(item.get("name")).classes("text-bold text-lg mt-4")
                 with ui.element("div").classes(
                     "flex w-full justify-between items-center mt-4"
                 ):
-                    ui.label("R$ 30,00").classes("text-2xl")
-                    if not item["guest_id"]:
+                    ui.label(
+                        f"R$ {item.get("price"):,.2f}".replace(",", "X")
+                        .replace(".", ",")
+                        .replace("X", ".")
+                    ).classes("text-2xl")
+                    if not item.get("guest_id"):
                         ui.button(
                             text="Dar presente",
                             icon="add_shopping_cart",
                             color=None,
                         ).classes("bg-[#6b6d4a] text-white")
-                    else:
+                    elif item.get("guest_id").replace("-", "") == curret_user.get("id"):
                         ui.button(
-                            icon="add",
+                            text="Presente dado por você",
+                            icon="check_circle",
                             color=None,
-                        ).classes("bg-[#6b6d4a] text-white")
+                        ).classes("text-white bg-green-500 hover:bg-red-500").on(
+                            "mouseover",
+                            lambda e: (
+                                e.sender.set_text("Cancelar presente"),
+                                e.sender.set_icon("close"),
+                            ),
+                        ).on(
+                            "mouseout",
+                            lambda e: (
+                                e.sender.set_text("Presente dado por você"),
+                                e.sender.set_icon("check_circle"),
+                            ),
+                        )
+
+                    elif item.get("guest_id") and item.get("guest_id").replace(
+                        "-", ""
+                    ) != curret_user.get("id"):
+                        ui.button(
+                            text="Presente dado",
+                            icon="check_circle",
+                            color=None,
+                        ).classes("bg-[#6b6d4a] text-white").props("disabled")
