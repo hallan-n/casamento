@@ -1,6 +1,6 @@
 import httpx
 from nicegui import ui
-from web.components.menu import menu, reset_css
+from web.components.menu import menu
 from web.utils import get_current_user
 
 
