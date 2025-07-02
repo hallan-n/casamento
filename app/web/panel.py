@@ -1,3 +1,5 @@
+from functools import partial
+
 import httpx
 from nicegui import ui
 from web.components.menu import menu
@@ -6,14 +8,9 @@ from web.utils import is_login
 
 @ui.page("/panel")
 async def index():
-
-    token = await ui.run_javascript(
-        'localStorage.getItem("access_token");', timeout=30
-    )
-
+    token = await ui.run_javascript('localStorage.getItem("access_token");', timeout=30)
 
     is_login()
-
 
     async def get_guest():
         async with httpx.AsyncClient() as client:
@@ -40,78 +37,114 @@ async def index():
             )
             if response.status_code == 200:
                 ui.notify("Sucesso!", color="green")
+                await ui.run_javascript("window.location.reload();")
+            else:
+                ui.notify(f"Erro: {response.json()['detail']}", color="red")
+
+    async def put_guest(
+        id: str, name: str, phone: str, description: str, is_confirmed: bool
+    ):
+        async with httpx.AsyncClient() as client:
+            response = await client.put(
+                "http://localhost:8000/guest/",
+                json={
+                    "id": id,
+                    "name": name,
+                    "phone": phone,
+                    "description": description,
+                    "is_confirmed": is_confirmed,
+                },
+                headers={"token": token},
+            )
+            if response.status_code == 200:
+                ui.notify("Convidado atualizado com sucesso!", color="green")
+                await ui.run_javascript("window.location.reload();")
+            else:
+                ui.notify(f"Erro: {response.json()['detail']}", color="red")
+
+    async def delete_guest(id: str):
+        async with httpx.AsyncClient() as client:
+            response = await client.delete(
+                f"http://localhost:8000/guest/?id={id}",
+                headers={"token": token},
+            )
+            if response.status_code == 200:
+                ui.notify("Convidado excluido com sucesso!", color="green")
+                await ui.run_javascript("window.location.reload();")
             else:
                 ui.notify(f"Erro: {response.json()['detail']}", color="red")
 
     menu()
 
-    with ui.tabs().classes('w-full') as tabs:
-        tab1 = ui.tab('Gerenciar convidados')
-        tab2 = ui.tab('Gerenciar presentes')
-
-    with ui.tab_panels(tabs, value=tab1).classes('w-full'):
-        with ui.tab_panel(tab1).classes('flex flex-row max-w-[1200px] mx-auto w-full h-screen gap-4 justify-center'):
+    with ui.element("div").classes("w-full mt-10"):
+        with ui.element("div").classes(
+            "flex flex-row max-w-[1200px] mx-auto w-full h-screen gap-6 justify-center"
+        ):
             with ui.element("div").classes("flex flex-col gap-4 w-full max-w-[400px]"):
                 ui.label("Adicionar convidado").classes("text-bold text-lg")
-                name = ui.input(label="Nome")
-                phone = ui.input(label="Telefone")
-                description = ui.input(label="Descrição")
-                is_confirmed = ui.checkbox("Confirmado", value=False)
+                add_name = ui.input(label="Nome")
+                add_phone = ui.input(label="Telefone")
+                add_description = ui.input(label="Descrição")
+                add_is_confirmed = ui.checkbox("Confirmado", value=False)
                 ui.button(
                     text="Adicionar",
                     icon="add",
                     on_click=lambda: post_guest(
-                        name.value, phone.value, description.value, is_confirmed.value
+                        add_name.value,
+                        add_phone.value,
+                        add_description.value,
+                        add_is_confirmed.value,
                     ),
                     color=None,
                 ).classes("bg-[#6b6d4a] text-white w-full")
 
-            with ui.element("div").classes("flex flex-col gap-4 w-full max-w-[600px]"):
-                guests = await get_guest()
+            guests = await get_guest()
 
-
-                with ui.column():
-                    ui.label('Lista de pessoas')
+            with ui.element("div").classes("w-full h-full max-h-[500px] max-w-[720px]"):
+                ui.label("Lista de convidados").classes("text-bold text-lg")
+                with ui.column().classes("overflow-y-scroll h-full"):
                     for item in guests:
-                        with ui.row().classes('items-center justify-between w-full border p-2'):
-                            with ui.label().classes("flex gap-1"):
-                                name = ui.input('Nome').classes('w-24')
-                                phone = ui.input('Telefone').classes('w-24')
-                                description = ui.input('Descrição').classes('w-24')
-                                is_confirmed = ui.checkbox("Confirmado", value=False)
-                                
-                            with ui.row():
-                                ui.button(icon='edit')
-                                ui.button(icon='add')
-                                
+                        with ui.row().classes(
+                            "items-center justify-between w-full border p-4 sm:min-w-[680px] min-h-32 flex-nowrap"
+                        ):
+                            with ui.label().classes("flex flex-nowrap gap-1"):
+                                ui.input("ID").props("readonly").classes(
+                                    "w-24"
+                                ).value = item["id"]
+                                name = ui.input("Nome", value=item["name"]).classes(
+                                    "w-24"
+                                )
+                                phone = ui.input(
+                                    "Telefone", value=item["phone"]
+                                ).classes("w-24")
+                                description = ui.input(
+                                    "Descrição", value=item["description"]
+                                ).classes("w-24")
+                                is_confirmed = ui.checkbox(
+                                    "Confirmado", value=item["is_confirmed"]
+                                )
 
+                            with ui.row().classes("flex flex-row flex-nowrap gap-2"):
+                                ui.button(icon="check", color=None).classes(
+                                    "bg-[#6b6d4a] text-white"
+                                ).on_click(
+                                    partial(
+                                        lambda _=None, i=None, n=None, p=None, d=None, c=None: put_guest(
+                                            i, n.value, p.value, d.value, c.value
+                                        ),
+                                        i=item["id"],
+                                        n=name,
+                                        p=phone,
+                                        d=description,
+                                        c=is_confirmed,
+                                    )
+                                )
 
-
-
-
-
-
-
-        with ui.tab_panel(tab2).classes('flex max-w-[1200px] mx-auto w-full h-screen gap-4 justify-center'):
-            ui.label('Conteúdo da Aba 2')
-    # with ui.element("div").classes('flex max-w-[1200px] mx-auto w-full h-screen gap-4 justify-center mt-40'):
-    #     with ui.element("div").classes("flex justify-center"):
-    #         
-
-
-
-    #     with ui.element("div").classes("flex justify-center"):
-    #         with ui.element("div").classes("flex flex-col gap-4 w-full max-w-[400px]"):
-    #             ui.label("Adicionar presente").classes("text-bold text-lg")
-    #             name = ui.input(label="Nome")
-    #             thumb = ui.input(label="Image URL")
-    #             url = ui.input(label="Link do presente")
-    #             price = ui.input(label="Preço")
-    #             ui.button(
-    #                 text="Adicionar",
-    #                 icon="add",
-    #                 on_click=lambda: post_guest(
-    #                     name.value, phone.value, description.value, is_confirmed.value
-    #                 ),
-    #                 color=None,
-    #             ).classes("bg-[#6b6d4a] text-white w-full")
+                                ui.button(icon="delete", color=None).classes(
+                                    "bg-[#6b6d4a] text-white"
+                                ).on_click(
+                                    partial(
+                                        lambda _=None, i=None: delete_guest(i),
+                                        i=item["id"],
+                                    )
+                                )

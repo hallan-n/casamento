@@ -12,7 +12,7 @@ async def confirm(user: str):
         async with httpx.AsyncClient() as client:
             response = await client.get(f"http://localhost:8000/guest/?id={user}")
             if response.status_code == 200:
-                if response.json()['is_confirmed']:
+                if response.json()["is_confirmed"]:
                     ui.navigate.to("/gifts")
                 return response.json()
             elif response.status_code == 422:

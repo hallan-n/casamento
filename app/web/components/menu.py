@@ -2,7 +2,7 @@ from nicegui import ui
 from web.utils import reset_css
 
 
-def menu(current_user = None):
+def menu(current_user=None):
     reset_css()
 
     with ui.header().classes("bg-olive-1 p-4 shadow"):
@@ -25,7 +25,10 @@ def menu(current_user = None):
                         text=current_user.get("name"),
                         icon="account_circle",
                         color=None,
-                        auto_close=True):
+                        auto_close=True,
+                    ):
                         ui.item(f'ID: {current_user.get("id")}')
                         ui.item(f'Telefone: {current_user.get("phone")}')
-                        ui.item(f'Cofirmou: {'Sim' if current_user.get("is_confirmed") else 'Não'}')
+                        ui.item(
+                            f'Cofirmou: {'Sim' if current_user.get("is_confirmed") else 'Não'}'
+                        )
