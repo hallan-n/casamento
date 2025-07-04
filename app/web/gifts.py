@@ -12,6 +12,9 @@ async def index():
 
     menu(current_user)
 
+    def format_currency(value):
+        return f"{value:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+
     async def get_gift():
         async with httpx.AsyncClient() as client:
             response = await client.get(f"http://localhost:8000/gift/")
@@ -46,78 +49,89 @@ async def index():
             else:
                 ui.notify(f"Erro: {response.json()['detail']}", color="red")
 
-    with ui.element("div").classes("flex gap-2 w-full justify-center mt-40 h-screen"):
+    with ui.element("div").classes("mx-auto mt-10 w-full max-w-[1200px] px-4"):
+        ui.label("Lista de Presentes").classes(
+            "text-2xl mb-2 text-center md:text-start text-bold text-gray-800"
+        )
         gifts = await get_gift()
+
         if gifts:
-            for item in gifts:
-                with ui.card().classes("max-h-[500px]"):
-                    ui.image(item.get("thumb")).classes(
-                        "rounded-lg w-96 h-96 object-cover"
-                    )
-                    ui.label(item.get("name")).classes("text-bold text-lg mt-4")
-                    with ui.element("div").classes(
-                        "flex w-full justify-between items-center mt-4"
+            with ui.element("div").classes(
+                "justify-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-10"
+            ):
+                for item in gifts:
+                    with ui.card().classes(
+                        "justify-between w-full h-[400px] max-w-[300px] mx-auto"
                     ):
+                        ui.image(item.get("thumb")).classes(
+                            "rounded-lg w-full h-52 object-cover"
+                        )
                         ui.label(
-                            f"R$ {item.get("price"):,.2f}".replace(",", "X")
-                            .replace(".", ",")
-                            .replace("X", ".")
-                        ).classes("text-2xl")
+                            f'{item.get("name")[:62] + "..." if len(item.get("name")) > 60 else item.get("name")}'
+                        ).classes("text-bold text-sm mt-4")
+                        with ui.element("div").classes(
+                            "flex w-full justify-between items-center mt-4"
+                        ):
+                            ui.label(
+                                f'R$ {format_currency(item.get("price"))}'
+                            ).classes("text-md")
 
-                        if not item.get("guest_id"):
-                            ui.button(
-                                text="Dar presente",
-                                icon="add_shopping_cart",
-                                color=None,
-                            ).classes("bg-[#6b6d4a] text-white").on_click(
-                                partial(
-                                    lambda _=None, data=None, guest_id=None: put_gift(
-                                        data, guest_id
-                                    ),
-                                    data=item,
-                                    guest_id=current_user.get("id", "").replace(
-                                        "-", ""
-                                    ),
+                            if not item.get("guest_id"):
+                                ui.button(
+                                    text="Dar presente",
+                                    icon="add_shopping_cart",
+                                    color=None,
+                                ).classes("bg-[#6b6d4a] text-white").on_click(
+                                    partial(
+                                        lambda _=None, data=None, guest_id=None: put_gift(
+                                            data, guest_id
+                                        ),
+                                        data=item,
+                                        guest_id=current_user.get("id", "").replace(
+                                            "-", ""
+                                        ),
+                                    )
                                 )
-                            )
 
-                        elif item.get("guest_id").replace("-", "") == current_user.get(
-                            "id", ""
-                        ).replace("-", ""):
-                            ui.button(
-                                text="Presente dado por você",
-                                icon="check_circle",
-                                color=None,
-                            ).classes("text-white bg-green-500 hover:bg-red-500").on(
-                                "mouseover",
-                                lambda e: (
-                                    e.sender.set_text("Cancelar presente"),
-                                    e.sender.set_icon("close"),
-                                ),
-                            ).on(
-                                "mouseout",
-                                lambda e: (
-                                    e.sender.set_text("Presente dado por você"),
-                                    e.sender.set_icon("check_circle"),
-                                ),
-                            ).on_click(
-                                partial(
-                                    lambda _=None, data=None, guest_id=None: put_gift(
-                                        data, guest_id
+                            elif item.get("guest_id").replace(
+                                "-", ""
+                            ) == current_user.get("id", "").replace("-", ""):
+                                ui.button(
+                                    text="Dado por você",
+                                    icon="check_circle",
+                                    color=None,
+                                ).classes(
+                                    "text-white bg-green-500 hover:bg-red-500"
+                                ).on(
+                                    "mouseover",
+                                    lambda e: (
+                                        e.sender.set_text("Cancelar presente"),
+                                        e.sender.set_icon("close"),
                                     ),
-                                    data=item,
-                                    guest_id=None,
+                                ).on(
+                                    "mouseout",
+                                    lambda e: (
+                                        e.sender.set_text("Dado por você"),
+                                        e.sender.set_icon("check_circle"),
+                                    ),
+                                ).on_click(
+                                    partial(
+                                        lambda _=None, data=None, guest_id=None: put_gift(
+                                            data, guest_id
+                                        ),
+                                        data=item,
+                                        guest_id=None,
+                                    )
                                 )
-                            )
 
-                        elif item.get("guest_id").replace("-", "") and item.get(
-                            "guest_id"
-                        ).replace("-", "") != current_user.get("id", ""):
-                            ui.button(
-                                text="Presente dado",
-                                icon="check_circle",
-                                color=None,
-                            ).classes("bg-[#6b6d4a] text-white").props("disabled")
+                            elif item.get("guest_id").replace("-", "") and item.get(
+                                "guest_id"
+                            ).replace("-", "") != current_user.get("id", ""):
+                                ui.button(
+                                    text="Presente dado",
+                                    icon="check_circle",
+                                    color=None,
+                                ).classes("bg-[#6b6d4a] text-white").props("disabled")
         else:
             ui.label("Nenhum presente encontrado").classes(
                 "text-bold text-gray-500 text-lg"

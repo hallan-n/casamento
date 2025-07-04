@@ -7,6 +7,7 @@ from web.utils import reset_css
 async def index():
     reset_css()
     menu()
+    ui.add_head_html("""<style>body{overflow: hidden;}</style>""")
 
     ui.element("div").classes("home")
 

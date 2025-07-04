@@ -137,8 +137,7 @@ async def index():
                 ui.notify(f"Erro: {response.json()['detail']}", color="red")
 
     menu()
-    ui.add_head_html("""<style>*{overflow: auto;}</style>""")
-    with ui.element("div").classes("w-full mt-10"):
+    with ui.element("div").classes("w-full mt-10 mb-20"):
         with ui.element("div").classes(
             "grid grid-cols-3 gap-6 max-w-[1200px] mx-auto w-full h-full"
         ):
