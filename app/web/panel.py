@@ -1,6 +1,7 @@
 from functools import partial
 
 import httpx
+from consts import API_URL
 from nicegui import ui
 from web.components.menu import menu
 from web.utils import is_login
@@ -15,7 +16,7 @@ async def index():
     async def get_guest():
         async with httpx.AsyncClient() as client:
             response = await client.get(
-                "http://localhost:8000/guest/",
+                f"{API_URL}/guest/",
                 headers={"token": token},
             )
             if response.status_code == 200:
@@ -27,7 +28,7 @@ async def index():
     async def post_guest(name: str, phone: str, description: str, is_confirmed: bool):
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                "http://localhost:8000/guest/",
+                f"{API_URL}/guest/",
                 json={
                     "name": name,
                     "phone": phone,
@@ -47,7 +48,7 @@ async def index():
     ):
         async with httpx.AsyncClient() as client:
             response = await client.put(
-                "http://localhost:8000/guest/",
+                f"{API_URL}/guest/",
                 json={
                     "id": id,
                     "name": name,
@@ -66,7 +67,7 @@ async def index():
     async def delete_guest(id: str):
         async with httpx.AsyncClient() as client:
             response = await client.delete(
-                f"http://localhost:8000/guest/?id={id}",
+                f"{API_URL}/guest/?id={id}",
                 headers={"token": token},
             )
             if response.status_code == 200:
@@ -78,7 +79,7 @@ async def index():
     async def get_gift():
         async with httpx.AsyncClient() as client:
             response = await client.get(
-                "http://localhost:8000/gift/",
+                f"{API_URL}/gift/",
                 headers={"token": token},
             )
             if response.status_code == 200:
@@ -90,7 +91,7 @@ async def index():
     async def post_gift(name: str, url: str, thumb: str, price: str):
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                "http://localhost:8000/gift/",
+                f"{API_URL}/gift/",
                 json={
                     "name": name,
                     "url": url,
@@ -108,7 +109,7 @@ async def index():
     async def put_gift(id: str, name: str, url: str, thumb: str, price: str):
         async with httpx.AsyncClient() as client:
             response = await client.put(
-                "http://localhost:8000/gift/",
+                f"{API_URL}/gift/",
                 json={
                     "id": id,
                     "name": name,
@@ -127,7 +128,7 @@ async def index():
     async def delete_gift(id: str):
         async with httpx.AsyncClient() as client:
             response = await client.delete(
-                f"http://localhost:8000/gift/?id={id}",
+                f"{API_URL}/gift/?id={id}",
                 headers={"token": token},
             )
             if response.status_code == 200:

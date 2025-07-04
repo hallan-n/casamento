@@ -1,6 +1,7 @@
 import asyncio
 
 import httpx
+from consts import API_URL
 from nicegui import ui
 from web.components.menu import menu
 from web.utils import reset_css
@@ -20,7 +21,7 @@ async def index():
     async def post_login(user: str, password: str):
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                "http://localhost:8000/auth/", json={"user": user, "password": password}
+                f"{API_URL}/auth/", json={"user": user, "password": password}
             )
             if response.status_code == 200:
                 ui.notify("Sucesso!", color="green")

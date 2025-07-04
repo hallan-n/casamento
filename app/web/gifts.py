@@ -1,6 +1,7 @@
 from functools import partial
 
 import httpx
+from consts import API_URL
 from nicegui import ui
 from web.components.menu import menu
 from web.utils import get_current_user
@@ -17,7 +18,7 @@ async def index():
 
     async def get_gift():
         async with httpx.AsyncClient() as client:
-            response = await client.get(f"http://localhost:8000/gift/")
+            response = await client.get(f"{API_URL}/gift/")
             if response.status_code == 200:
                 return response.json()
             elif response.status_code == 422:
@@ -37,7 +38,7 @@ async def index():
 
         async with httpx.AsyncClient() as client:
             response = await client.put(
-                "http://localhost:8000/gift/",
+                f"{API_URL}/gift/",
                 json=gift_dict,
             )
             if response.status_code == 200:

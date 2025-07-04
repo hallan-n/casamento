@@ -2,6 +2,7 @@ import asyncio
 import json
 
 import httpx
+from consts import API_URL
 from nicegui import ui
 from web.components.menu import menu
 
@@ -10,7 +11,7 @@ from web.components.menu import menu
 async def confirm(user: str):
     async def get_guest():
         async with httpx.AsyncClient() as client:
-            response = await client.get(f"http://localhost:8000/guest/?id={user}")
+            response = await client.get(f"{API_URL}/guest/?id={user}")
             if response.status_code == 200:
                 if response.json()["is_confirmed"]:
                     await ui.run_javascript(
@@ -36,7 +37,7 @@ async def confirm(user: str):
         }
         async with httpx.AsyncClient() as client:
             response = await client.put(
-                f"http://localhost:8000/guest/",
+                f"{API_URL}/guest/",
                 json=data,
             )
 
