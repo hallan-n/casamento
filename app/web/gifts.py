@@ -1,3 +1,5 @@
+from functools import partial
+
 import httpx
 from nicegui import ui
 from web.components.menu import menu
@@ -22,6 +24,28 @@ async def index():
             else:
                 ui.notify(f"Erro: {response.json()['detail']}", color="red")
 
+    async def put_gift(gift_dict, guest_id):
+        if not current_user:
+            ui.notify(
+                "Você não está logado, acesse o site pelo seu link único.", color="red"
+            )
+            return
+        gift_dict.update({"guest_id": guest_id})
+
+        async with httpx.AsyncClient() as client:
+            response = await client.put(
+                "http://localhost:8000/gift/",
+                json=gift_dict,
+            )
+            if response.status_code == 200:
+                if guest_id:
+                    ui.notify("Presente cancelado com sucesso!", color="green")
+                else:
+                    ui.notify("Presente dado com sucesso!", color="green")
+                await ui.run_javascript("window.location.reload();")
+            else:
+                ui.notify(f"Erro: {response.json()['detail']}", color="red")
+
     with ui.element("div").classes("flex gap-2 w-full justify-center mt-40 h-screen"):
         gifts = await get_gift()
         if gifts:
@@ -39,16 +63,27 @@ async def index():
                             .replace(".", ",")
                             .replace("X", ".")
                         ).classes("text-2xl")
+
                         if not item.get("guest_id"):
                             ui.button(
                                 text="Dar presente",
                                 icon="add_shopping_cart",
                                 color=None,
-                            ).classes("bg-[#6b6d4a] text-white")
+                            ).classes("bg-[#6b6d4a] text-white").on_click(
+                                partial(
+                                    lambda _=None, data=None, guest_id=None: put_gift(
+                                        data, guest_id
+                                    ),
+                                    data=item,
+                                    guest_id=current_user.get("id", "").replace(
+                                        "-", ""
+                                    ),
+                                )
+                            )
 
                         elif item.get("guest_id").replace("-", "") == current_user.get(
                             "id", ""
-                        ):
+                        ).replace("-", ""):
                             ui.button(
                                 text="Presente dado por você",
                                 icon="check_circle",
@@ -65,11 +100,19 @@ async def index():
                                     e.sender.set_text("Presente dado por você"),
                                     e.sender.set_icon("check_circle"),
                                 ),
+                            ).on_click(
+                                partial(
+                                    lambda _=None, data=None, guest_id=None: put_gift(
+                                        data, guest_id
+                                    ),
+                                    data=item,
+                                    guest_id=None,
+                                )
                             )
 
-                        elif item.get("guest_id") and item.get("guest_id").replace(
-                            "-", ""
-                        ) != current_user.get("id", ""):
+                        elif item.get("guest_id").replace("-", "") and item.get(
+                            "guest_id"
+                        ).replace("-", "") != current_user.get("id", ""):
                             ui.button(
                                 text="Presente dado",
                                 icon="check_circle",

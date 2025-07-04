@@ -10,6 +10,7 @@ class AddGift(BaseModel):
 
 class UpdateGift(AddGift):
     id: int
+    guest_id: UUID4 | None = None
 
 
 class PostLogin(BaseModel):

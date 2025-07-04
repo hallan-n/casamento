@@ -13,7 +13,13 @@ async def confirm(user: str):
             response = await client.get(f"http://localhost:8000/guest/?id={user}")
             if response.status_code == 200:
                 if response.json()["is_confirmed"]:
-                    ui.navigate.to("/gifts")
+                    await ui.run_javascript(
+                        f"""
+                        localStorage.setItem("current_user", '{json.dumps(response.json())}');
+                        window.location.href = '/web/gifts';                    
+                        """,
+                        timeout=30,
+                    )
                 return response.json()
             elif response.status_code == 422:
                 ui.notify("Erro: Convidado não encontrado", color="red")
@@ -50,7 +56,7 @@ async def confirm(user: str):
     current_user = await get_guest()
     menu()
     with ui.element("div").classes(
-        "flex items-center gap-6 w-full justify-center mt-40 h-screen p-4"
+        "flex items-center gap-6 w-full justify-center h-screen"
     ):
 
         with ui.element("div").classes(
