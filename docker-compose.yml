@@ -1,19 +1,19 @@
 services:
-  # app:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   container_name: app
-  #   depends_on:
-  #     - mysql
-  #   environment:
-  #     - TZ=America/Sao_Paulo
-  #   ports:
-  #     - "8000:8000"
-  #   networks:
-  #     - app
-  #   volumes:
-  #     - .:/app
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app
+    depends_on:
+      - mysql
+    environment:
+      - TZ=America/Sao_Paulo
+    ports:
+      - "8000:8000"
+    networks:
+      - app
+    volumes:
+      - .:/app
 
   mysql:
     image: mysql:8
