@@ -42,15 +42,15 @@ async def index():
                 json=gift_dict,
             )
             if response.status_code == 200:
-                if guest_id:
-                    ui.notify("Presente cancelado com sucesso!", color="green")
+                if not guest_id:
+                    ui.notify("Presente cancelado com sucesso!", color="orange")
                 else:
                     ui.notify("Presente dado com sucesso!", color="green")
                 await ui.run_javascript("window.location.reload();")
             else:
                 ui.notify(f"Erro: {response.json()['detail']}", color="red")
 
-    with ui.element("div").classes("mx-auto mt-10 w-full max-w-[1200px] px-4"):
+    with ui.element("div").classes("mx-auto mb-4 mt-10 w-full max-w-[1200px] px-4"):
         ui.label("Lista de Presentes").classes(
             "text-2xl mb-2 text-center md:text-start text-bold text-gray-800"
         )
@@ -67,8 +67,9 @@ async def index():
                         ui.image(item.get("thumb")).classes(
                             "rounded-lg w-full h-52 object-cover"
                         )
-                        ui.label(
-                            f'{item.get("name")[:62] + "..." if len(item.get("name")) > 60 else item.get("name")}'
+                        ui.link(
+                            f'{item.get("name")[:62] + "..." if len(item.get("name")) > 60 else item.get("name")}',
+                            item.get("url"), new_tab=True
                         ).classes("text-bold text-sm mt-4")
                         with ui.element("div").classes(
                             "flex w-full justify-between items-center mt-4"
@@ -102,11 +103,11 @@ async def index():
                                     icon="check_circle",
                                     color=None,
                                 ).classes(
-                                    "text-white bg-green-500 hover:bg-red-500"
+                                    "text-white bg-green-700 hover:bg-red-500"
                                 ).on(
                                     "mouseover",
                                     lambda e: (
-                                        e.sender.set_text("Cancelar presente"),
+                                        e.sender.set_text("Cancelar"),
                                         e.sender.set_icon("close"),
                                     ),
                                 ).on(

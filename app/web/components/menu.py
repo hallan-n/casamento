@@ -32,3 +32,15 @@ def menu(current_user=None):
                         ui.item(
                             f'Cofirmou: {'Sim' if current_user.get("is_confirmed") else 'Não'}'
                         )
+                        ui.button(
+                            text="Sair",
+                            icon="logout",
+                            color='red'
+                        ).classes("text-white w-full").on_click(
+                            lambda: ui.run_javascript(
+                                """
+                                localStorage.removeItem('current_user');
+                                window.location.href = '/web/gifts';
+                                """
+                            )
+                        )
