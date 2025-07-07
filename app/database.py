@@ -24,7 +24,13 @@ class Guest(SQLModel, table=True):
     phone: str = Field(min_length=3, max_length=100, default="", nullable=False)
     is_confirmed: bool = Field(default=False)
     description: str = Field(min_length=3, max_length=100, default="")
-
+    
+    max_companion: int = Field(default=0)
+    companion_1: str = Field(min_length=3, max_length=100, default="")
+    companion_2: str = Field(min_length=3, max_length=100, default="")
+    companion_3: str = Field(min_length=3, max_length=100, default="")
+    companion_4: str = Field(min_length=3, max_length=100, default="")
+    companion_5: str = Field(min_length=3, max_length=100, default="")
     gifts: List[Gift] = Relationship(back_populates="guest")
 
 engine = create_async_engine(DATABASE_URL, echo=True)

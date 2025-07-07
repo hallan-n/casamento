@@ -27,7 +27,7 @@ async def get_gift(id: int = None) -> Gift | list[Gift]:
     try:
         resp = await read(Gift, id)
         if not resp:
-            raise HTTPException(404, "Erro ao consultar um presente")
+            raise HTTPException(404, "Presente não encontrado")
         return resp
     except HTTPException:
         raise

@@ -27,14 +27,17 @@ async def confirm(user: str):
             else:
                 ui.notify(f"Erro: {response.json()['detail']}", color="red")
 
-    async def update_guest(name: str, phone: str, description: str):
+    async def update_guest(name: str, phone: str, description: str, companions: list[str]):
         data = {
             "id": user,
             "name": name,
             "phone": phone,
             "is_confirmed": True,
             "description": description,
+            "max_companion": current_user["max_companion"]
         }
+        for i, companion in enumerate(companions, 1):
+            data.update({f"companion_{i}": companion})
         async with httpx.AsyncClient() as client:
             response = await client.put(
                 f"{API_URL}/guest/",
@@ -75,13 +78,21 @@ async def confirm(user: str):
                 )
                 name = ui.input(label="Nome").value = current_user.get("name", "")
                 phone = ui.input(label="Telefone").value = current_user.get("phone", "")
-                description = ui.input(label="Descrição").value = current_user.get(
-                    "description", ""
-                )
+                description = ui.input(label="Descrição").value = current_user.get("description", "")
 
+                index = 1
+                companion_list = []
+                for i, key in enumerate(current_user.keys(), 1):
+                    if key.startswith('companion'):
+                        companion = ui.input(label=f"Acompanhante {index}", value=current_user.get(key, ""))
+                        companion_list.append(companion)
+                        index = index + 1
+                    else: continue
+                async def _update_guest():
+                    await update_guest(name, phone, description, [companion.value for companion in companion_list]),
                 ui.button(
                     text="Confirmar",
                     icon="check",
-                    on_click=lambda: update_guest(name, phone, description),
+                    on_click=_update_guest,
                     color=None,
                 ).classes("bg-[#6b6d4a] text-white w-full")
