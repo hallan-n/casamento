@@ -49,7 +49,7 @@ async def index():
                 ui.notify(f"Erro: {response.json()['detail']}", color="red")
 
     async def put_guest(
-        id: str, name: str, phone: str, description: str, is_confirmed: bool, companions: list[str]
+        id: str, name: str, phone: str, description: str, is_confirmed: bool, max_companion: str, companions: list[str]
     ):
         async with httpx.AsyncClient() as client:
             data={
@@ -58,7 +58,7 @@ async def index():
                 "phone": phone,
                 "description": description,
                 "is_confirmed": is_confirmed,
-                "max_companion": len(companions)
+                "max_companion": max_companion
             }
             for i, companion in enumerate(companions, 1):
                 data.update({f"companion_{i}": companion})
@@ -200,12 +200,13 @@ async def index():
                         ):
                             with ui.label().classes("flex-col flex-nowrap gap-1"):
                                 with ui.element('div').classes('flex flex-nowrap'):
-                                    ui.input("ID").props("readonly").value = item["id"]
+                                    update_guest_id = ui.input("ID", value=item["id"]).props("readonly")
                                     update_guest_name = ui.input("Nome", value=item["name"])
                                     update_guest_phone = ui.input("Telefone", value=item["phone"])
                                     update_guest_description = ui.input("Descrição", value=item["description"])
                                     update_guest_is_confirmed = ui.checkbox("Confirmado", value=item["is_confirmed"])
                                 with ui.element('div').classes('flex flex-nowrap'):
+                                    update_guest_max_companion = ui.number("Max. Acompanhantes", value=item["max_companion"])
                                     update_guest_companion_1 = ui.input("Acompanhante 1", value=item["companion_1"])
                                     update_guest_companion_2 = ui.input("Acompanhante 2", value=item["companion_2"])
                                     update_guest_companion_3 = ui.input("Acompanhante 3", value=item["companion_3"])
@@ -222,11 +223,12 @@ async def index():
                                     async def handle_update():
                                         companion_names = [c.value for c in liupdate_guest_companion_list if c.value]
                                         await put_guest(
-                                            item["id"],
+                                            update_guest_id.value,
                                             update_guest_name.value,
                                             update_guest_phone.value,
                                             update_guest_description.value,
                                             update_guest_is_confirmed.value,
+                                            update_guest_max_companion.value,
                                             companion_names
                                         )
 

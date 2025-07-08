@@ -27,17 +27,21 @@ async def confirm(user: str):
             else:
                 ui.notify(f"Erro: {response.json()['detail']}", color="red")
 
-    async def update_guest(name: str, phone: str, description: str, companions: list[str]):
+    async def update_guest(name: str, phone: str, description: str, companion_1,companion_2, companion_3, companion_4,companion_5):
         data = {
             "id": user,
             "name": name,
             "phone": phone,
             "is_confirmed": True,
             "description": description,
-            "max_companion": current_user["max_companion"]
+            "max_companion": current_user["max_companion"],
+            "companion_1": companion_1.value,
+            "companion_2": companion_2.value,
+            "companion_3": companion_3.value,
+            "companion_4": companion_4.value,
+            "companion_5": companion_5.value
         }
-        for i, companion in enumerate(companions, 1):
-            data.update({f"companion_{i}": companion})
+
         async with httpx.AsyncClient() as client:
             response = await client.put(
                 f"{API_URL}/guest/",
@@ -80,19 +84,23 @@ async def confirm(user: str):
                 phone = ui.input(label="Telefone").value = current_user.get("phone", "")
                 description = ui.input(label="Descrição").value = current_user.get("description", "")
 
-                index = 1
-                companion_list = []
-                for i, key in enumerate(current_user.keys(), 1):
-                    if key.startswith('companion'):
-                        companion = ui.input(label=f"Acompanhante {index}", value=current_user.get(key, ""))
-                        companion_list.append(companion)
-                        index = index + 1
-                    else: continue
-                async def _update_guest():
-                    await update_guest(name, phone, description, [companion.value for companion in companion_list]),
+                companion_1,companion_2, companion_3, companion_4,companion_5 = None, None, None, None, None
+
+                if current_user.get("max_companion") >= 1:
+                    ui.label(f'Você pode levar até {current_user.get("max_companion")} acompanhantes').classes('mt-2 text-bold')
+                    companion_1 = ui.input(label="Acompanhante 1", value=current_user.get("companion_1"))\
+                        .classes(f'{'' if current_user.get("max_companion") >= 1 else 'hidden'}')
+                    companion_2 = ui.input(label="Acompanhante 2", value=current_user.get("companion_2"))\
+                        .classes(f'{'' if current_user.get("max_companion") >= 2 else 'hidden'}')
+                    companion_3 = ui.input(label="Acompanhante 3", value=current_user.get("companion_3"))\
+                        .classes(f'{'' if current_user.get("max_companion") >= 3 else 'hidden'}')
+                    companion_4 = ui.input(label="Acompanhante 4", value=current_user.get("companion_4"))\
+                        .classes(f'{'' if current_user.get("max_companion") >= 4 else 'hidden'}')
+                    companion_5 = ui.input(label="Acompanhante 5", value=current_user.get("companion_5"))\
+                        .classes(f'{'' if current_user.get("max_companion") > 5 else 'hidden'}')
                 ui.button(
                     text="Confirmar",
                     icon="check",
-                    on_click=_update_guest,
+                    on_click=lambda: update_guest(name,phone,description,companion_1,companion_2, companion_3, companion_4,companion_5),
                     color=None,
                 ).classes("bg-[#6b6d4a] text-white w-full")
