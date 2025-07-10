@@ -27,13 +27,12 @@ async def confirm(user: str):
             else:
                 ui.notify(f"Erro: {response.json()['detail']}", color="red")
 
-    async def update_guest(name: str, phone: str, description: str, companion_1,companion_2, companion_3, companion_4,companion_5):
+    async def update_guest(name: str, phone: str, companion_1,companion_2, companion_3, companion_4,companion_5):
         data = {
             "id": user,
             "name": name,
             "phone": phone,
             "is_confirmed": True,
-            "description": description,
             "max_companion": current_user["max_companion"],
             "companion_1": companion_1.value,
             "companion_2": companion_2.value,
@@ -63,6 +62,8 @@ async def confirm(user: str):
 
     current_user = await get_guest()
     menu()
+    ui.add_head_html("""<style>body{overflow: hidden;}</style>""")
+
     with ui.element("div").classes(
         "flex items-center gap-6 w-full justify-center h-screen"
     ):
@@ -70,7 +71,7 @@ async def confirm(user: str):
         with ui.element("div").classes(
             "w-96 h-96 overflow-hidden rounded-lg shadow-lg relative"
         ):
-            ui.image("app/web/assets/casal.jpeg").classes(
+            ui.image("app/web/assets/casal2.jpg").classes(
                 "absolute top-0 left-0 w-full h-auto"
             )
 
@@ -82,8 +83,6 @@ async def confirm(user: str):
                 )
                 name = ui.input(label="Nome").value = current_user.get("name", "")
                 phone = ui.input(label="Telefone").value = current_user.get("phone", "")
-                description = ui.input(label="Descrição").value = current_user.get("description", "")
-
                 companion_1,companion_2, companion_3, companion_4,companion_5 = None, None, None, None, None
 
                 if current_user.get("max_companion") >= 1:
@@ -101,6 +100,6 @@ async def confirm(user: str):
                 ui.button(
                     text="Confirmar",
                     icon="check",
-                    on_click=lambda: update_guest(name,phone,description,companion_1,companion_2, companion_3, companion_4,companion_5),
+                    on_click=lambda: update_guest(name,phone,companion_1,companion_2, companion_3, companion_4,companion_5),
                     color=None,
                 ).classes("bg-[#6b6d4a] text-white w-full")

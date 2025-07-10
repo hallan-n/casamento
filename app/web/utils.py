@@ -45,7 +45,7 @@ def reset_css():
         .home {
             height: 100vh;
             width: 100vw;
-            background-image: url('assets/mask.png');
+            background-image: url('assets/mask2.png');
             background-size: contain;      
             background-repeat: no-repeat;
             background-position: left top;

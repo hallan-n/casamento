@@ -191,9 +191,9 @@ async def index():
             ui.separator().classes('my-10')
             guests = await get_guest()
 
-            with ui.element("div").classes("col-span-2 w-full h-full max-h-[400px]"):
+            with ui.element("div").classes("col-span-2 w-full h-full max-h-[500px] overflow-y-scroll"):
                 ui.label("Lista de convidados").classes("text-bold text-lg")
-                with ui.column().classes("overflow-y-scroll h-full"):
+                with ui.column().classes("h-full"):
                     for item in guests:
                         with ui.row().classes(
                             "items-center justify-between w-full border p-4 sm:min-w-[680px] min-h-32 flex-nowrap"
