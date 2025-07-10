@@ -95,7 +95,7 @@ async def index():
             if response.status_code == 200:
                 return response.json()
             else:
-                ui.notify(f"Erro: {response.json()['detail']}", color="red")
+                ui.notify(response.json()['detail'], color="red")
                 return []
 
     async def post_gift(name: str, url: str, thumb: str, price: str):
