@@ -42,23 +42,36 @@ def reset_css():
             padding: 0;
             margin: 0;
         }
-        .home {
+        .home-lg {
             height: 100vh;
             width: 100vw;
             background-image: url('assets/mask2.png');
             background-size: contain;      
             background-repeat: no-repeat;
             background-position: left top;
-            z-index: 100;
-                    
+            z-index: 100;                    
+        }
+        .home-sm {
+            display: none;
+            height: 100vh;
+            width: 100vw;
+            background-image: url('https://raw.githubusercontent.com/hallan-n/cdn-free/main/prewedding/29.jpg');
+            background-size: cover;      
+            background-repeat: no-repeat;
+            background-size: 120%;
+            background-position: 20% 40%;
+            opacity: 40%;               
+        }
+        .home-content {
+        z-index: auto;
         }
         .bg-olive-1{
             background-color: #86895d;
         }
-        @media (max-width: 961px) {
-            .home {
-                display: none;
-            }
+        @media (max-width: 1024px) {
+            .home-lg { display: none; }
+            .home-sm { display: block; }
+            .home-content { z-index: 100; }
         }
         body {
             font-family: 'Poppins', sans-serif;
