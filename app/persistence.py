@@ -14,7 +14,12 @@ async def read(Schema: Gift | Guest, id: int | str = None) -> Gift | Guest:
     async with Connection() as conn:
         if id:
             return await conn.get(Schema, id)
-        result = await conn.execute(select(Schema))
+        stmt = select(Schema)
+
+        if Schema == Gift:
+            stmt = stmt.order_by(Schema.price)
+            
+        result = await conn.execute(stmt)
         return result.scalars().all()
 
 
