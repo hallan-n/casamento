@@ -28,7 +28,7 @@ async def index():
     </style>
     """)
 
-    images = [f'assets/prewedding/{i}.jpg' for i in range(1, 40)]
+    images = [f'https://raw.githubusercontent.com/hallan-n/cdn-free/main/prewedding/{i}.jpg' for i in range(1, 40)]
     current_index = {'index': 0}
     with ui.element('div').classes(
         'max-w-[1200px] img-limit mx-auto flex flex-col items-center justify-center relative pt-2'

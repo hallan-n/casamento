@@ -64,8 +64,8 @@ async def index():
                     with ui.card().classes(
                         "justify-between w-full h-[400px] max-w-[300px] mx-auto"
                     ):
-                        ui.image(item.get("thumb")).classes(
-                            "rounded-lg w-full h-52 object-cover"
+                        ui.element('img').props(f'src="{item.get("thumb")}"').classes(
+                            "rounded-lg w-full h-52 object-contain"
                         )
                         ui.link(
                             f'{item.get("name")[:62] + "..." if len(item.get("name")) > 60 else item.get("name")}',
