@@ -14,10 +14,11 @@ def menu(current_user=None):
                 "flex gap-3 justify-between sm:w-auto w-full items-center"
             ):
                 ui.link("Início", "/").classes("cursor-pointer text-white no-underline")
-                ui.link("Administração", "/login").classes(
+                ui.link("Pre Wedding", "/prewedding").classes("cursor-pointer text-white no-underline")
+                ui.link("Lista de presentes", "/gifts").classes(
                     "cursor-pointer text-white no-underline"
                 )
-                ui.link("Lista de presentes", "/gifts").classes(
+                ui.link("Administração", "/login").classes(
                     "cursor-pointer text-white no-underline"
                 )
                 if current_user:
