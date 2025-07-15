@@ -62,7 +62,6 @@ async def confirm(user: str):
 
     current_user = await get_guest()
     menu()
-    ui.add_head_html("""<style>body{overflow: hidden;}</style>""")
 
     with ui.element("div").classes(
         "flex items-center gap-6 w-full justify-center h-screen"
