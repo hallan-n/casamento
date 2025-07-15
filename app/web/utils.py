@@ -63,17 +63,17 @@ def reset_css():
             background-image: url('https://raw.githubusercontent.com/hallan-n/cdn-free/main/prewedding/29.jpg');
             background-size: cover;      
             background-repeat: no-repeat;
-            background-size: 120%;
+            background-size: 160%;
             background-position: 20% 40%;
             opacity: 40%;               
         }
         .home-content {
-        z-index: auto;
+            z-index: auto;
         }
         .bg-olive-1{
             background-color: #86895d;
         }
-        @media (max-width: 1024px) {
+        @media (max-width: 1353px) {
             .home-lg { display: none; }
             .home-sm { display: block; }
             .home-content { z-index: 100; }

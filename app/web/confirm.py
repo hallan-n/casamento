@@ -35,11 +35,11 @@ async def confirm(user: str):
             "is_confirmed": True,
             "max_companion": current_user["max_companion"],
             "description": description if description else '',
-            "companion_1": companion_1.value if companion_1.value else '',
-            "companion_2": companion_2.value if companion_2.value else '',
-            "companion_3": companion_3.value if companion_3.value else '',
-            "companion_4": companion_4.value if companion_4.value else '',
-            "companion_5": companion_5.value if companion_5.value else ''
+            "companion_1": companion_1.value if companion_1 else '',
+            "companion_2": companion_2.value if companion_2 else '',
+            "companion_3": companion_3.value if companion_3 else '',
+            "companion_4": companion_4.value if companion_4 else '',
+            "companion_5": companion_5.value if companion_5 else ''
         }
 
         async with httpx.AsyncClient() as client:
@@ -66,7 +66,7 @@ async def confirm(user: str):
     menu()
 
     with ui.element("div").classes(
-        "flex items-center gap-6 w-full justify-center h-screen"
+        "flex items-center gap-6 w-full justify-center h-screen p-4"
     ):
 
         with ui.element("div").classes(
