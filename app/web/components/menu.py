@@ -18,9 +18,6 @@ def menu(current_user=None):
                 ui.link("Lista de presentes", "/gifts").classes(
                     "cursor-pointer text-white no-underline"
                 )
-                ui.link("Administração", "/login").classes(
-                    "cursor-pointer text-white no-underline"
-                )
                 if current_user:
                     with ui.dropdown_button(
                         text=current_user.get("name"),
