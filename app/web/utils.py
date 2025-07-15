@@ -38,6 +38,9 @@ def reset_css():
     ui.add_head_html(
         """
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
         * {
             margin: 0;
             padding: 0;
@@ -48,13 +51,9 @@ def reset_css():
             margin: 0;
         }
         .home-lg {
-            height: 100vh;
-            width: 100vw;
             background-image: url('assets/mask2.png');
             background-size: contain;      
-            background-repeat: no-repeat;
-            background-position: left top;
-            z-index: 100;                    
+            background-repeat: no-repeat;          
         }
         .home-sm {
             display: none;
