@@ -54,10 +54,11 @@ async def confirm(user: str):
 
                 await ui.run_javascript(
                     f"""
-                    localStorage.setItem("current_user", '{json.dumps(data)}');
-                    window.location.href = '/web/gifts';                    
+                    localStorage.setItem("current_user", JSON.stringify({json.dumps(data)}));
+                    window.location.href = '/web/gifts';
                     """
                 )
+
             else:
                 ui.notify(f"Erro: {response.json()['detail']}", color="red")
 
