@@ -27,13 +27,14 @@ async def confirm(user: str):
             else:
                 ui.notify(f"Erro: {response.json()['detail']}", color="red")
 
-    async def update_guest(name: str, phone: str, companion_1,companion_2, companion_3, companion_4,companion_5):
+    async def update_guest(name: str, phone: str, description, companion_1,companion_2, companion_3, companion_4,companion_5):
         data = {
             "id": user,
             "name": name,
             "phone": phone,
             "is_confirmed": True,
             "max_companion": current_user["max_companion"],
+            "description": description,
             "companion_1": companion_1.value,
             "companion_2": companion_2.value,
             "companion_3": companion_3.value,
@@ -100,6 +101,6 @@ async def confirm(user: str):
                 ui.button(
                     text="Confirmar",
                     icon="check",
-                    on_click=lambda: update_guest(name,phone,companion_1,companion_2, companion_3, companion_4,companion_5),
+                    on_click=lambda: update_guest(name,phone,current_user.get("description"), companion_1,companion_2, companion_3, companion_4,companion_5),
                     color=None,
                 ).classes("bg-[#6b6d4a] text-white w-full")
