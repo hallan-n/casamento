@@ -34,12 +34,12 @@ async def confirm(user: str):
             "phone": phone,
             "is_confirmed": True,
             "max_companion": current_user["max_companion"],
-            "description": description,
-            "companion_1": companion_1.value,
-            "companion_2": companion_2.value,
-            "companion_3": companion_3.value,
-            "companion_4": companion_4.value,
-            "companion_5": companion_5.value
+            "description": description if description else '',
+            "companion_1": companion_1.value if companion_1.value else '',
+            "companion_2": companion_2.value if companion_2.value else '',
+            "companion_3": companion_3.value if companion_3.value else '',
+            "companion_4": companion_4.value if companion_4.value else '',
+            "companion_5": companion_5.value if companion_5.value else ''
         }
 
         async with httpx.AsyncClient() as client:
