@@ -4,6 +4,7 @@ import httpx
 from consts import API_URL
 from nicegui import ui
 from web.components.menu import menu
+from web.components.pix import pix_code
 from web.utils import get_current_user
 
 
@@ -62,8 +63,9 @@ async def index():
             ):
                 for item in gifts:
                     with ui.card().classes(
-                        "justify-between w-full h-[400px] max-w-[300px] mx-auto"
+                        "relative justify-between w-full h-[400px] max-w-[400px] mx-auto"
                     ):
+                        ui.button('Enviar por PIX',icon="qr_code_2", color=None, on_click=pix_code().open).classes("absolute top-0 right-0 !m-0 bg-black/40 text-white")
                         ui.element('img').props(f'src="{item.get("thumb")}"').classes(
                             "rounded-lg w-full h-52 object-contain"
                         )
