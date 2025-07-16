@@ -59,7 +59,7 @@ async def index():
         with ui.element("div").classes("bg-olive-1 w-screen h-screen p-4").props('id=roteiro'):
             
             with ui.element("div").classes('max-w-[1200px] mx-auto'):                
-                ui.label("Roteiro").classes('text-2xl text-bold text-white py-10')
+                ui.label("Roteiro").classes('text-2xl text-bold text-white pt-28 pb-4')
  
                 with ui.column().classes('w-full'):
                     def step(icon_name, title, description):
