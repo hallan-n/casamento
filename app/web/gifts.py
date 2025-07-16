@@ -27,7 +27,7 @@ async def index():
             elif response.status_code == 404:
                 ui.notify("Nenhum presente cadastrado", color="red")
             else:
-                ui.notify(f"Erro: {response.json()['detail']}", color="red")
+                ui.navigate.reload()
 
     async def put_gift(gift_dict, guest_id):
         if not current_user:
