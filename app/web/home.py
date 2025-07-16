@@ -18,9 +18,9 @@ async def index():
             ui.element("div").classes("absolute inset-0 bg-olive-1 lg:-z-10 lg:opacity-100 opacity-50")
             with ui.element("div").classes(
                 'relative z-[999] w-full h-full flex items-center '
-                'lg:justify-end justify-center max-w-[1200px] mx-auto'
+                'lg:justify-end justify-center max-w-[1200px] mx-auto p-6'
             ):
-                with ui.element("div").classes('w-full max-w-[400px] text-2xl text-white text-center mb-24'):
+                with ui.element("div").classes('w-full max-w-[400px] text-2xl text-white text-center mb-36'):
                     ui.image("app/web/assets/logo_full.svg")
                     ui.image("app/web/assets/divider.svg")
                     ui.label("Save the Date").classes('mt-4 lg:[text-shadow:none] [text-shadow:2px_2px_10px_rgba(0,0,0)]')
@@ -111,4 +111,4 @@ async def index():
                         'Agradecemos de coração por fazer parte dessa história! 💍❤️'
                     )
 
-        ui.element("div").classes("bg-olive-1 w-screen h-[300px]")
+        ui.element("div").classes("bg-olive-1 w-screen h-screen")
