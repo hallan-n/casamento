@@ -35,7 +35,7 @@ async def index():
                         )
                     
 
-        with ui.element("div").classes("bg-olive-1 w-screen h-screen p-4").props("id=info"):
+        with ui.element("div").classes("bg-olive-1 w-screen h-screen p-4 pb-12").props("id=info"):
             with ui.element("div").classes('w-full h-full max-w-[1200px] mx-auto'):
                 ui.label("Nosso Grande Dia").classes('text-2xl text-bold text-white pt-24 py-10')
                 with ui.element('div').classes('flex flex-nowrap md:flex-row flex-col gap-4 justify-between items-center'):
