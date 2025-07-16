@@ -28,7 +28,7 @@ async def index():
                     ui.label("Gostaríamos de convidá-lo(a)").classes('mt-4').classes('lg:[text-shadow:none] [text-shadow:1px_1px_15px_rgba(0,0,0)]')
                     ui.label("para celebrar conosco este").classes('mt-4').classes('lg:[text-shadow:none] [text-shadow:1px_1px_15px_rgba(0,0,0)]')
                     ui.label("momento especial de união.").classes('mt-4').classes('lg:[text-shadow:none] [text-shadow:1px_1px_15px_rgba(0,0,0)]')
-                    with ui.link('', '#info').classes('block mt-4 text-white'):
+                    with ui.link('', '#info').classes('block mt-4 text-white text-md'):
                         ui.label("Confira as informações do casamento").classes('mt-12').classes('lg:[text-shadow:none] [text-shadow:1px_1px_15px_rgba(0,0,0)]')
                         ui.icon('arrow_downward').classes(
                             'text-5xl lg:[text-shadow:none] [text-shadow:1px_1px_15px_rgba(0,0,0)]'
@@ -37,34 +37,40 @@ async def index():
 
         with ui.element("div").classes("bg-olive-1 w-screen h-screen p-4").props("id=info"):
             with ui.element("div").classes('w-full h-full max-w-[1200px] mx-auto'):
-                ui.label("Nosso Grande Dia").classes('text-2xl text-bold text-white py-10')
-                with ui.element('div').classes('flex md:flex-row flex-col md:justify-between justify-center items-center md:max-h-[500px]'):
-                    ui.html('📅 O nosso casamento começará às 16h, na <b>Paróquia Santo André Apóstolo</b>, onde vamos celebrar esse momento tão especial junto com você! <br><br>📍R. Santo André, 387 - André Carloni, Serra - ES, 29161-851 <br><br>Depois da cerimônia, vamos para um cerimonial chamado <b>Cerimonial Espaço Encantado</b> com piscina, churrasco e muita alegria!<br><br>📍R. Santo André, 387 - André Carloni, Serra - ES, 29161-851 ').classes('w-full md:w-1/2 text-2xl text-white')
-                    with ui.element('div').classes('flex justify-center flex-row gap-2'):
-                        ui.element('iframe').props('src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3786388.8542359457!2d-52.8339299!3d-21.8717675!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xb8197538b6138d%3A0x5d3f1bfb8067acca!2sPar%C3%B3quia%20e%20Matriz%20Santo%20Andr%C3%A9%20Ap%C3%B3stolo%20-%20Andr%C3%A9%20Carloni!5e0!3m2!1spt-BR!2sbr!4v1716234567890!5m2!1spt-BR!2sbr"').classes('w-full md:h-[248px] h-[150px]')
+                ui.label("Nosso Grande Dia").classes('text-2xl text-bold text-white pt-24 py-10')
+                with ui.element('div').classes('flex flex-nowrap md:flex-row flex-col gap-4 justify-between items-center'):
+                    ui.html('''
+                        📅 O nosso casamento começará às 16h, na <b>Paróquia Santo André Apóstolo</b>, onde vamos celebrar esse momento tão especial junto com você! <br>
+                        <a href="https://maps.app.goo.gl/6g5qokyjxQN5AKo6A" target="_blank" class="text-blue-200 underline hover:text-blue-300">📍R. Santo André, 387 - André Carloni, Serra - ES, 29161-851</a><br><br>
+                        Depois da cerimônia, vamos para um cerimonial chamado <b>Cerimonial Espaço Encantado</b> com piscina, churrasco e muita alegria!<br>
+                        <a href="https://maps.app.goo.gl/pUR7XXg8yEPora3A8" target="_blank" class="text-blue-200 underline hover:text-blue-300">
+                            📍Beco Dois - Barro Branco, Serra - ES, 29170-721
+                        </a><br><br><a href="#roteiro" class="underline hover:text-zinc-300">Confira o roteiro</a>
+                    ''').classes('w-full md:w-1/2 text-2xl text-white text-justify')
 
-                        ui.element('iframe').props('src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3745.2415276423044!2d-40.2720102!3d-20.1656667!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xb81f3bdba0168b%3A0xe82de3395125e518!2sCerimonial%20Espa%C3%A7o%20Encantado!5e0!3m2!1spt-BR!2sbr!4v1752612397445!5m2!1spt-BR!2sbr"').classes('w-full md:h-[248px] h-[150px] md:mt-2')
-
-                    
-
-                # 🎉 Logo depois da cerimônia, seguiremos para o cerimonial, onde vamos aproveitar muito: vai ter piscina, bebidas geladas e um delicioso churrasco para todo mundo relaxar, dar boas risadas e comemorar juntos até o final!
-
-                # 💖 Venha preparado para viver uma tarde e noite inesquecíveis ao nosso lado!
-
-        with ui.element("div").classes("bg-olive-1 w-screen h-screen").props('id=roteiro'):
-            with ui.element("div").classes('max-w-[1200px] mx-auto pt-20 p-4'):
-    
+  
+                    with ui.element('div').classes('grid md:grid-cols-2 grid-cols-4 gap-4'):
+                        ui.element('img').classes('w-56 h-56 object-cover rounded-lg').props('src="https://raw.githubusercontent.com/hallan-n/cdn-free/main/prewedding/igreja.png"')
+                        ui.element('img').classes('w-56 h-56 object-cover rounded-lg').props('src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4noZVt7n0O5IPq1MxZZMTXzE5lgGEuV1vLqADf_mQELws7mQMmINcmkNnkthVTyrRU9BWLVX8Ig7acfhRmKhSdJg0LmNM_984uIw_Np5ATbncU5e1An4xTjBVvdedwmqFCn_2EW-NA=s680-w680-h510-rw"')
+                        ui.element('img').classes('w-56 h-56 object-cover rounded-lg').props('src="https://lh3.googleusercontent.com/p/AF1QipNqi_aE1LQRxEdKSKNuT_l-ELmWT-A2K7x_1BdZ=s680-w680-h510-rw"')
+                        ui.element('img').classes('w-56 h-56 object-cover rounded-lg').props('src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4nq5UNITCt_MQ2qUGtjxtksWUBLSiPKX1ysnduqFuLp5XktnvlruYU5Z7MJphuJ5lFpxGsLpQupY1Wi2z-KLAvh8g86lcjn-0z6bsG5mi2w9Sbs7jAV2uJ6rXA3km2UPJ89lW52Ky9Ke7CA=s680-w680-h510-rw"')
+        
+        
+        with ui.element("div").classes("bg-olive-1 w-screen h-screen p-4").props('id=roteiro'):
+            
+            with ui.element("div").classes('max-w-[1200px] mx-auto'):                
+                ui.label("Roteiro").classes('text-2xl text-bold text-white py-10')
  
-                with ui.column().classes('w-full mt-12'):
+                with ui.column().classes('w-full'):
                     def step(icon_name, title, description):
                         with ui.column().classes('relative pl-12'):
                             with ui.row().classes('items-center absolute top-0 left-0'):
                                 ui.icon(icon_name, size='lg').classes('w-16 h-16 rounded-full bg-white p-1 flex-shrink-0')
-                                ui.label(title).classes('text-lg font-semibold text-gray-900 text-white')
+                                ui.label(title).classes('text-2xl font-semibold text-gray-900 text-white')
 
                             ui.element('div').classes('absolute top-14 left-9 w-0.5 bg-white').style('height: calc(100% - 2rem)')
 
-                            ui.html(description).classes('ms-10 mt-16 text-gray-700 whitespace-normal text-white text-justify')
+                            ui.html(description).classes('text-lg ms-10 mt-16 text-gray-700 whitespace-normal text-white text-justify')
 
                     step(
                         'event_available',
@@ -105,4 +111,4 @@ async def index():
                         'Agradecemos de coração por fazer parte dessa história! 💍❤️'
                     )
 
-        ui.element("div").classes("bg-olive-1 w-screen h-[350px]")
+        ui.element("div").classes("bg-olive-1 w-screen h-[300px]")
