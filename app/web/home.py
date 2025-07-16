@@ -35,7 +35,7 @@ async def index():
                         )
                     
 
-        with ui.element("div").classes("bg-olive-1 w-screen h-screen p-4 pb-12").props("id=info"):
+        with ui.element("div").classes("bg-olive-1 w-screen h-screen p-4").props("id=info"):
             with ui.element("div").classes('w-full h-full max-w-[1200px] mx-auto'):
                 ui.label("Nosso Grande Dia").classes('text-2xl text-bold text-white pt-24 py-10')
                 with ui.element('div').classes('flex flex-nowrap md:flex-row flex-col gap-4 justify-between items-center'):
@@ -50,16 +50,16 @@ async def index():
 
   
                     with ui.element('div').classes('grid md:grid-cols-2 grid-cols-4 gap-4'):
-                        ui.element('img').classes('w-56 h-56 object-cover rounded-lg').props('src="https://raw.githubusercontent.com/hallan-n/cdn-free/main/prewedding/igreja.png"')
-                        ui.element('img').classes('w-56 h-56 object-cover rounded-lg').props('src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4noZVt7n0O5IPq1MxZZMTXzE5lgGEuV1vLqADf_mQELws7mQMmINcmkNnkthVTyrRU9BWLVX8Ig7acfhRmKhSdJg0LmNM_984uIw_Np5ATbncU5e1An4xTjBVvdedwmqFCn_2EW-NA=s680-w680-h510-rw"')
-                        ui.element('img').classes('w-56 h-56 object-cover rounded-lg').props('src="https://lh3.googleusercontent.com/p/AF1QipNqi_aE1LQRxEdKSKNuT_l-ELmWT-A2K7x_1BdZ=s680-w680-h510-rw"')
-                        ui.element('img').classes('w-56 h-56 object-cover rounded-lg').props('src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4nq5UNITCt_MQ2qUGtjxtksWUBLSiPKX1ysnduqFuLp5XktnvlruYU5Z7MJphuJ5lFpxGsLpQupY1Wi2z-KLAvh8g86lcjn-0z6bsG5mi2w9Sbs7jAV2uJ6rXA3km2UPJ89lW52Ky9Ke7CA=s680-w680-h510-rw"')
+                        ui.element('img').classes('md:w-56 md:h-56 w-36 h-36 object-cover rounded-lg').props('src="https://raw.githubusercontent.com/hallan-n/cdn-free/main/prewedding/igreja.png"')
+                        ui.element('img').classes('md:w-56 md:h-56 w-36 h-36 object-cover rounded-lg').props('src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4noZVt7n0O5IPq1MxZZMTXzE5lgGEuV1vLqADf_mQELws7mQMmINcmkNnkthVTyrRU9BWLVX8Ig7acfhRmKhSdJg0LmNM_984uIw_Np5ATbncU5e1An4xTjBVvdedwmqFCn_2EW-NA=s680-w680-h510-rw"')
+                        ui.element('img').classes('md:w-56 md:h-56 w-36 h-36 object-cover rounded-lg').props('src="https://lh3.googleusercontent.com/p/AF1QipNqi_aE1LQRxEdKSKNuT_l-ELmWT-A2K7x_1BdZ=s680-w680-h510-rw"')
+                        ui.element('img').classes('md:w-56 md:h-56 w-36 h-36 object-cover rounded-lg').props('src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4nq5UNITCt_MQ2qUGtjxtksWUBLSiPKX1ysnduqFuLp5XktnvlruYU5Z7MJphuJ5lFpxGsLpQupY1Wi2z-KLAvh8g86lcjn-0z6bsG5mi2w9Sbs7jAV2uJ6rXA3km2UPJ89lW52Ky9Ke7CA=s680-w680-h510-rw"')
         
         
         with ui.element("div").classes("bg-olive-1 w-screen h-screen p-4").props('id=roteiro'):
             
             with ui.element("div").classes('max-w-[1200px] mx-auto'):                
-                ui.label("Roteiro").classes('text-2xl text-bold text-white pt-28 pb-4')
+                ui.label("Roteiro").classes('text-2xl text-bold text-white pt-12 pb-4')
  
                 with ui.column().classes('w-full'):
                     def step(icon_name, title, description):
