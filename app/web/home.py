@@ -20,16 +20,16 @@ async def index():
                 'relative z-[999] w-full h-full flex items-center '
                 'lg:justify-end justify-center max-w-[1200px] mx-auto p-6'
             ):
-                with ui.element("div").classes('w-full max-w-[400px] text-2xl text-white text-center mb-36'):
+                with ui.element("div").classes('w-full max-w-[400px] text-2xl text-white text-center mb-44'):
                     ui.image("app/web/assets/logo_full.svg")
                     ui.image("app/web/assets/divider.svg")
-                    ui.label("Save the Date").classes('mt-4 lg:[text-shadow:none] [text-shadow:2px_2px_10px_rgba(0,0,0)]')
-                    ui.label("Sábado, 04 de Outubro, às 16h!").classes('text-bold mt-4 lg:[text-shadow:none] [text-shadow:1px_1px_15px_rgba(0,0,0)]')
-                    ui.label("Gostaríamos de convidá-lo(a)").classes('mt-4').classes('lg:[text-shadow:none] [text-shadow:1px_1px_15px_rgba(0,0,0)]')
-                    ui.label("para celebrar conosco este").classes('mt-4').classes('lg:[text-shadow:none] [text-shadow:1px_1px_15px_rgba(0,0,0)]')
-                    ui.label("momento especial de união.").classes('mt-4').classes('lg:[text-shadow:none] [text-shadow:1px_1px_15px_rgba(0,0,0)]')
+                    ui.label("Save the Date").classes('mt-2 lg:[text-shadow:none] [text-shadow:2px_2px_10px_rgba(0,0,0)]')
+                    ui.label("Sábado, 04 de Outubro, às 16h!").classes('text-bold mt-2 lg:[text-shadow:none] [text-shadow:1px_1px_15px_rgba(0,0,0,3)]')
+                    ui.label("Gostaríamos de convidá-lo(a)").classes('mt-2').classes('lg:[text-shadow:none] [text-shadow:1px_1px_15px_rgba(0,0,0,3)]')
+                    ui.label("para celebrar conosco este").classes('mt-2').classes('lg:[text-shadow:none] [text-shadow:1px_1px_15px_rgba(0,0,0,3)]')
+                    ui.label("momento especial de união.").classes('mt-2').classes('lg:[text-shadow:none] [text-shadow:1px_1px_15px_rgba(0,0,0,3)]')
                     with ui.link('', '#info').classes('block mt-4 text-white text-md'):
-                        ui.label("Confira as informações do casamento").classes('mt-12').classes('lg:[text-shadow:none] [text-shadow:1px_1px_15px_rgba(0,0,0)]')
+                        ui.label("Confira as informações do casamento").classes('mt-8').classes('lg:[text-shadow:none] [text-shadow:1px_1px_15px_rgba(0,0,0,3)]')
                         ui.icon('arrow_downward').classes(
                             'text-5xl lg:[text-shadow:none] [text-shadow:1px_1px_15px_rgba(0,0,0)]'
                         )
