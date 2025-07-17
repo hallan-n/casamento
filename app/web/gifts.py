@@ -47,7 +47,7 @@ async def index():
                     ui.notify("Presente cancelado com sucesso!", color="orange")
                 else:
                     ui.notify("Presente dado com sucesso!", color="green")
-                await ui.run_javascript("window.location.reload();")
+                    ui.navigate.reload()
             else:
                 ui.notify(f"Erro: {response.json()['detail']}", color="red")
 
