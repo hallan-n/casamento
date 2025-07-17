@@ -20,7 +20,7 @@ async def index():
                 headers={"token": token},
             )
             if response.status_code == 200:
-                return response.json()
+                return await response.json()
             else:
                 ui.notify(f"Erro: {response.json()['detail']}", color="red")
                 return []
@@ -93,7 +93,7 @@ async def index():
                 headers={"token": token},
             )
             if response.status_code == 200:
-                return response.json()
+                return await response.json()
             else:
                 ui.notify(response.json()['detail'], color="red")
                 return []

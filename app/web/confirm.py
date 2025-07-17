@@ -21,7 +21,7 @@ async def confirm(user: str):
                         """,
                         timeout=30,
                     )
-                return response.json()
+                return await response.json()
             elif response.status_code == 422:
                 ui.notify("Erro: Convidado não encontrado", color="red")
             else:
